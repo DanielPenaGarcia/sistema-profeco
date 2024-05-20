@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+option csharp_namespace = "MarketMicroService";
+
+package markets;
+
+service Market {
+    rpc GetMarketById(GetMarketByIdRequest) returns (GetMarketByIdResponse) {}
+    rpc GetMarkets(GetMarketsRequest) returns (GetMarketsResponse) {}
+    rpc GetMarketsByNameAndCity(GetMarketsByNameAndCityRequest) returns (GetMarketsByNameAndCityResponse) {}
+}
+//============================================Entities======================================================
+//Represents a market entity
+message MarketEntity {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    string city = 4;
+    string address = 5;
+    string createdAt = 6;
+    string updatedAt = 7;
+}
+
+//============================================Requests======================================================
+message GetMarketByIdRequest {
+    string id = 1;
+}
+
+message GetMarketsRequest {
+    PaginationConfig pagination = 1;
+}
+
+message GetMarketsByNameAndCityRequest {
+    string name = 1;
+    string city = 2;
+    PaginationConfig pagination = 3;
+}
+//============================================Responses======================================================
+message GetMarketByIdResponse {
+    MarketEntity market = 1;
+    Error error = 2;
+}
+
+message GetMarketsResponse {
+    repeated MarketEntity markets = 1;
+    Error error = 2;
+}
+
+message GetMarketsByNameAndCityResponse {
+    repeated MarketEntity markets = 1;
+    Error error = 2;
+}
+//============================================Utils======================================================
+//Empty message
+message Empty {}
+//Pagination configuration
+message PaginationConfig {
+    int32 page = 1;
+    int32 limit = 2;
+}
+//Error message
+message Error {
+    string code = 1;
+    string message = 2;
+}
+
